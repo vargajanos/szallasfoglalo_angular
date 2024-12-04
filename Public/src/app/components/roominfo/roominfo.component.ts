@@ -6,11 +6,13 @@ import { RatingsComponent } from '../ratings/ratings.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-roominfo',
   standalone: true,
-  imports: [RouterModule, RatingsComponent, FullCalendarModule],
+  imports: [RouterModule, RatingsComponent, FullCalendarModule, CommonModule],
   templateUrl: './roominfo.component.html',
   styleUrl: './roominfo.component.scss'
 })
@@ -18,9 +20,11 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 export class RoominfoComponent implements OnInit{
   constructor(
     private api: ApiService,
+    private auth: AuthService,
     private activatedRoute: ActivatedRoute
   ){}
 
+  isLoggedIn:boolean = false;
   roomID: string = "";
 
   room:Room =  {
@@ -47,6 +51,10 @@ export class RoominfoComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    this.auth.isLoggedIn$.subscribe(res=>{
+      this.isLoggedIn=res;
+    })  
     this.roomID = this.activatedRoute.snapshot.params['id'];
 
     this.api.read('accomodations', this.roomID).subscribe(res =>{

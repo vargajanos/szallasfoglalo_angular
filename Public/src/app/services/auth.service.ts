@@ -42,4 +42,12 @@ export class AuthService {
     return null;
   }
 
+  isLoggedUser():boolean{
+    return this.isLoggedIn.value;
+  }
+  isAdmin():boolean{
+    const user = this.loggedUser();
+    return user.role === "admin"
+  }
+
 }

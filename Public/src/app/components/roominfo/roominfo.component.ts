@@ -24,8 +24,8 @@ export class RoominfoComponent implements OnInit{
     private activatedRoute: ActivatedRoute
   ){}
 
-  isLoggedIn:boolean = false;
   roomID: string = "";
+  isLoggedIn:boolean = false;
 
   room:Room =  {
       id: 'dsdsfasdfsaf',
@@ -52,12 +52,13 @@ export class RoominfoComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.auth.isLoggedIn$.subscribe(res=>{
-      this.isLoggedIn=res;
-    })  
+    this.auth.isLoggedIn$.subscribe(res => {
+      this.isLoggedIn = res;
+    });
+
     this.roomID = this.activatedRoute.snapshot.params['id'];
 
-    this.api.read('accomodations', this.roomID).subscribe(res =>{
+    this.api.read('accomodations', 'id', 'eq', this.roomID).subscribe(res =>{
       if (res){
         this.room = (res as Room[])[0];
       }

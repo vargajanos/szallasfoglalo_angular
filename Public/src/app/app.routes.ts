@@ -13,18 +13,12 @@ import { UserAuthGuard } from './guards/user-auth.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
 
 export const routes: Routes = [
-  /*
-    logged out routes
-  */ 
 
+  /**
+   *  logged out routes
+   */
   {
     path: 'login', component: LoginComponent
-  },
-  {
-    path: 'rooms', component: RoomsComponent
-  },
-  {
-    path: 'rooms/:id', component: RoominfoComponent
   },
   {
     path: 'registration', component: RegistrationComponent
@@ -32,32 +26,49 @@ export const routes: Routes = [
   {
     path: 'lostpass', component: LostpassComponent
   },
+  {
+    path: 'rooms', component: RoomsComponent
+  },
+  {
+    path: 'rooms/:id', component: RoominfoComponent
+  },
+
   /**
-   logged in routes
+   * logged in routes
    */
   {
-  path: 'logout', component: LogoutComponent, canActivate:[UserAuthGuard]
+    path: 'logout', component: LogoutComponent, canActivate: [UserAuthGuard]
   },
-  //users routes
+
+  /**
+   * user routes
+   */
   {
     path: 'bookings', component: BookingsComponent, canActivate: [UserAuthGuard]
   },
 
-  //Admin routes
+  /**
+   * admin routes
+   */
   {
     path: 'admin', canActivate: [AdminAuthGuard],
-    children:[
+    children: [
       {
         path: 'rooms', component: ManageRoomsComponent
       },
       {
         path: 'bookings', component: ManageBookingsComponent
+      },
+      {
+        path: 'users', component: ManageBookingsComponent
       }
     ]
   },
 
+  /**
+   * Other routes
+   */
 
-  //Other routes
   {
     path: '', redirectTo: 'rooms', pathMatch: 'full'
   },

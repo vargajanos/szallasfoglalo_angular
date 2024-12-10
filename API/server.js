@@ -13,6 +13,7 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const multer  = require('multer');
 const nodemailer = require("nodemailer");
+const path = require('path');
 const ejs  = require('ejs');
 const uuid = require('uuid');
 var CryptoJS = require("crypto-js");
@@ -34,7 +35,47 @@ var pool  = mysql.createPool({
     database        : process.env.DBNAME
 });
 
+// NODEMAILER CONFIG
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: true,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+});
+
 // APP ROUTES
+
+// send email
+app.post('/send', (req, res)=>{
+    const {to, subject, content, template} = req.body;
+
+    const templatePath = path.join(__dirname, 'templates', template + '.ejs');
+    
+    ejs.renderFile(templatePath, {content}, async (err, html)=>{
+
+        if (err){
+            return res.send('Error rendering email template!');
+        }
+
+        const mailOptions = {
+            from: '"Szállásfoglaló App" <' + process.env.SMTP_USER + '>',
+            to: to,
+            subject: subject,
+            html: html
+        }
+
+        try {
+            result = await transporter.sendMail(mailOptions);
+            res.send(result.response);
+        } catch(error){
+            res.send(error);
+        }
+    });
+ 
+});
 
 // user login
 app.post('/login/:table', (req, res)=>{
@@ -55,7 +96,7 @@ app.post('/login/:table', (req, res)=>{
         return;
     }
 
-    pool.query(`SELECT id, name, email,role FROM ${table} WHERE email=? AND passwd=?`, [email, CryptoJS.SHA1(passwd).toString()], (err, results)=>{
+    pool.query(`SELECT id, name, email, role FROM ${table} WHERE email=? AND passwd=?`, [email, CryptoJS.SHA1(passwd).toString()], (err, results)=>{
         if (err){
             res.status(500).send({message: 'Hiba történt az adatbázis lekérdezés közben! ' + err});
             return;
@@ -119,7 +160,7 @@ app.post('/reg/:table', (req, res)=>{
             res.status(203).send({ message: 'Ez az e-mail cím már regisztrálva van!', invalid: invalidFields });
             return
         }
-        pool.query(`INSERT INTO ${table} (id, name, email, passwd, role) VALUES('${uuid.v4()}', '${name}', '${email}', SHA1('${passwd}'), 'user')`, (err, results)=>{
+        pool.query(`INSERT INTO ${table} (id, name, email, passwd, role, secret) VALUES('${uuid.v4()}', '${name}', '${email}', SHA1('${passwd}'), 'user', '${uuid.v4()}')`, (err, results)=>{
             if (err){
                 res.status(500).send(err);
                 return

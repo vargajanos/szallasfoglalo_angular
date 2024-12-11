@@ -68,4 +68,8 @@ export class ApiService {
     return this.http.post(this.server + '/send', data);
   }
 
+  updatePasswd(id:string,data:object){
+    return this.http.patch(this.server + '/public/users/id/eq',+id, data);
+  }
+
 }

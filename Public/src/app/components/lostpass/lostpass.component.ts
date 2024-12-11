@@ -28,18 +28,19 @@ export class LostpassComponent {
           this.message.showMessage('Hiba', 'Nem regisztrált e-mail cím!', 'danger');
           return;
         }
+        console.log(res);
 
         let data = {
           to: this.email,
           subject: "Elfelejtett jelszó visszaállítás",
           content: {
-              link: "http://localhost:4200/lostpass/"+res[0].id+"/"+res[0].secret
+              link: "http://localhost:4200/restorepass/"+res[0].id+"/"+res[0].secret
           },
           template: "lostpass"
         }
 
         this.api.sendMail(data).subscribe((res:any) => {
-          this.message.showMessage('Üzenet', res, 'info');
+          this.message.showMessage('Üzenet', res.message, 'info');
         });
 
 

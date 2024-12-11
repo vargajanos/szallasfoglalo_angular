@@ -11,6 +11,7 @@ import { ManageRoomsComponent } from './components/manage-rooms/manage-rooms.com
 import { ManageBookingsComponent } from './components/manage-bookings/manage-bookings.component';
 import { UserAuthGuard } from './guards/user-auth.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
+import { RestorepassComponent } from './components/restorepass/restorepass.component';
 
 export const routes: Routes = [
 
@@ -25,6 +26,9 @@ export const routes: Routes = [
   },
   {
     path: 'lostpass', component: LostpassComponent
+  },  
+  {
+    path: 'restorepass/:userID/:secret', component: RestorepassComponent
   },
   {
     path: 'rooms', component: RoomsComponent

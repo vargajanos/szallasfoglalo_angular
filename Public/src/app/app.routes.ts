@@ -12,6 +12,7 @@ import { ManageBookingsComponent } from './components/manage-bookings/manage-boo
 import { UserAuthGuard } from './guards/user-auth.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
 import { RestorepassComponent } from './components/restorepass/restorepass.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 
 export const routes: Routes = [
 
@@ -64,7 +65,7 @@ export const routes: Routes = [
         path: 'bookings', component: ManageBookingsComponent
       },
       {
-        path: 'users', component: ManageBookingsComponent
+        path: 'users', component: ManageUsersComponent
       }
     ]
   },

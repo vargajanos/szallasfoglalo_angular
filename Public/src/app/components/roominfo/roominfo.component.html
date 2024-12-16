@@ -33,7 +33,7 @@
             </div>
             <div class="row">
               <div class="form-floating mb-3 col-6">
-                <input type="number" class="form-control" id="fo" placeholder="" [(ngModel)]="booking.personCount" (change)="calculatePrice()">
+                <input type="number" class="form-control" id="fo" placeholder="" min="1" [(ngModel)]="booking.personCount" (change)="calculatePrice()">
                 <label for="fo" class="ms-2">Személyek száma:</label>
               </div>
               <div class="form-floating mb-3 col-6">

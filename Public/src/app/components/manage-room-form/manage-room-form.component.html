@@ -1,0 +1,40 @@
+<div>
+    <h3 class="mt-4 mb-4">Szállások kezelése</h3>
+    <h4 class="mb-4">Új szállás felvétele</h4>
+
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="nev" placeholder="" [(ngModel)]="room.title">
+    <label for="nev">Szállás neve</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="cim" placeholder="" [(ngModel)]="room.title">
+    <label for="cim">Címe</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="email" class="form-control" id="email" placeholder="" [(ngModel)]="room.email">
+    <label for="email">E-mail cím</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="phone" placeholder="" [(ngModel)]="room.phone">
+    <label for="phone">Telefonszáma</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="number" class="form-control" id="price" placeholder="" [(ngModel)]="room.price">
+    <label for="price">Szoba ára (Ft/fő/éj)</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <textarea class="form-control" placeholder="" id="leiras" [(ngModel)]="room.description"></textarea>
+    <label for="leiras">Leírás</label>
+  </div>
+
+  <button class="btn btn-primary" (click)="addRoom()">Felvétel</button>
+
+  
+
+</div>

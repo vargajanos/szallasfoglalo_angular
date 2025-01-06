@@ -13,6 +13,7 @@ import { UserAuthGuard } from './guards/user-auth.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
 import { RestorepassComponent } from './components/restorepass/restorepass.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { ManageRoomFormComponent } from './components/manage-room-form/manage-room-form.component';
 
 export const routes: Routes = [
 
@@ -59,7 +60,15 @@ export const routes: Routes = [
     path: 'admin', canActivate: [AdminAuthGuard],
     children: [
       {
-        path: 'rooms', component: ManageRoomsComponent
+        path: 'rooms', component: ManageRoomsComponent,
+        children: [
+          {
+            path:'new', component:ManageRoomFormComponent
+          },
+          {
+            path:'edit/:id', component:ManageRoomFormComponent
+          }
+        ]
       },
       {
         path: 'bookings', component: ManageBookingsComponent

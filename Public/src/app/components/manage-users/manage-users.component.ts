@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Booking } from '../../interfaces/booking';
-import moment from 'moment';
 import { Accomodation } from '../../interfaces/accomodation';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';

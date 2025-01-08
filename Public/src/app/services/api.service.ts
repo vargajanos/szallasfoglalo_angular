@@ -72,4 +72,9 @@ export class ApiService {
     return this.http.patch(this.server + '/public/users/id/eq',+id, data);
   }
 
+  uploadFile(file:File){
+    const formdata = new FormData();
+    formdata.append('image', file, file.name);
+    return this.http.post(this.server + 'upload/', formdata, this.tokenHeader());
+  }
 }

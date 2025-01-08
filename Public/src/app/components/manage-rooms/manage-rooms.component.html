@@ -1,33 +1,32 @@
-<router-outlet></router-outlet>
 <div>
-    <h3 class="mt-4 mb-4">Szállások kezelése</h3>
+  <h3 class="mt-4 mb-4">Szállások kezelése</h3>
 
-    <button class="btn btn-primary mb-3" routerLink="new">Új szállás felvétele</button>
+  <button class="btn btn-primary mb-4" routerLink="new">Új szállás felvétele</button>
 
-    <h5>Szállások listája:</h5>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Szállás neve</th>
-                <th>Szállás címe</th>
-                <th class="text-end">Műveletek</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let room of rooms; let i = index">
-                <td>{{i + 1}}</td>
-                <td>{{room.title}}</td>
-                <td>{{room.address}}</td>
-                <td class="text-end">
-                    <button class="btn btn-warning btn-sm me-2" routerLink="edit/{{room.id}}">Módosit</button>
-                    <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Töröl</button>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr></tr>
-        </tfoot>
-    </table>
-
+  <h5>Szállások listája:</h5>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Szállás neve</th>
+        <th>Szállás címe</th>
+        <th class="text-end">Műveletek</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms; let i = index">
+        <td>{{i+1}}.</td>
+        <td>{{room.title}}</td>
+        <td>{{room.address}}</td>
+        <td class="text-end">
+          <button class="btn btn-light btn-sm me-2" routerLink="/admin/rooms/images/{{room.id}}">Képek</button>
+          <button class="btn btn-warning btn-sm me-2" routerLink="/admin/rooms/edit/{{room.id}}">Módosít</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Töröl</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr></tr>
+    </tfoot>
+  </table>
 </div>

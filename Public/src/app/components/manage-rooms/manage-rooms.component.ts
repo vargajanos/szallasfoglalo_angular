@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { Room } from '../../interfaces/room';
+import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MessageService } from '../../services/message.service';
-
-
 
 @Component({
   selector: 'app-manage-rooms',
@@ -14,31 +12,32 @@ import { MessageService } from '../../services/message.service';
   templateUrl: './manage-rooms.component.html',
   styleUrl: './manage-rooms.component.scss'
 })
-export class ManageRoomsComponent implements OnInit {
 
-  constructor(private api:ApiService,
+export class ManageRoomsComponent implements OnInit{
+
+  rooms:Room[] = [];
+
+  constructor(
+    private api:ApiService,
     private message:MessageService
-
   ){}
 
-  rooms:Room[] = []; 
-
   ngOnInit(): void {
-    this.getRooms()
+    this.getAccomodations();
   }
 
-  getRooms(){
-    this.api.selectAll("accomodations").subscribe(res=>{
-      this.rooms = res as Room[];
-    })
-  }
-
-  deleteRoom(id:any){
-    if (confirm("Kinki?")) {
-      this.api.delete('accomodations', id).subscribe(res=>{
-        this.message.showMessage("OK", "Törölve", "success")
-        this.getRooms();
+  deleteRoom(id:string){
+    if (confirm('Biztosan törlöd a kiválasztott szállást? A hozzá kapcsolódó foglalások is törlésre kerülnek!')){
+      this.api.delete('accomodations', id).subscribe(res =>{
+        this.message.showMessage('OK', 'A kiválaszottt szállás törölve lett!', 'success');
+        this.getAccomodations();
       });
     }
+  }
+
+  getAccomodations(){
+    this.api.selectAll('accomodations').subscribe(res => {
+      this.rooms = res as Room[];
+    })
   }
 }

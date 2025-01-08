@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Room } from '../../interfaces/room';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MessageService } from '../../services/message.service';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { v4 as uuid } from 'uuid';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-manage-room-form',
+  selector: 'app-manage-rooms-form',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
-  templateUrl: './manage-room-form.component.html',
-  styleUrl: './manage-room-form.component.scss'
+  imports: [RouterModule, FormsModule, CommonModule],
+  templateUrl: './manage-rooms-form.component.html',
+  styleUrl: './manage-rooms-form.component.scss'
 })
-export class ManageRoomFormComponent implements OnInit{
+
+export class ManageRoomsFormComponent implements OnInit {
 
   constructor(
     private api:ApiService,
@@ -95,3 +96,4 @@ export class ManageRoomFormComponent implements OnInit{
     }
   }
 }
+

@@ -46,15 +46,4 @@ export class ManageUsersComponent {
     });
   }
 
-  Torles(id:any){
-    if (confirm("Biztos törlöd?")) {
-      this.api.delete('users', id).subscribe((res:any)=>{
-        this.message.showMessage("OK", "Sikeres user törlés", "success")
-        this.getUsers();
-      })
-    }
-    else{
-      return;
-    }
-  }
 }

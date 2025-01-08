@@ -5,19 +5,17 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Név</th>
-          <th>E-mail</th>
+          <th class="text-center">Név</th>
+          <th class="text-center">E-mail</th>
           <th>Role</th>
-          <th class="text-end">Műveletek</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users; let i = index">
           <td>{{i+1}}.</td>
-          <td>{{user.name}}</td>
-          <td>{{user.email}}</td>
+          <td class="text-center">{{user.name}}</td>
+          <td class="text-center">{{user.email}}</td>
           <td>{{user.role}}</td>
-          <td class="text-end"><button class="btn btn-danger" (click)="Torles(user.id)">Torles</button></td>
           <!--
             //TODO: foglalás lemondási idő a startdate előtt 3 nappal!
           -->
@@ -25,7 +23,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="7">Összesen: {{users.length}} foglalás</td>
+          <td colspan="4">Összesen: {{users.length}} foglalás</td>
         </tr>
       </tfoot>
     </table>

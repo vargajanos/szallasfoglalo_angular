@@ -11,9 +11,9 @@ import { ManageRoomsComponent } from './components/manage-rooms/manage-rooms.com
 import { ManageBookingsComponent } from './components/manage-bookings/manage-bookings.component';
 import { UserAuthGuard } from './guards/user-auth.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
-import { RestorepassComponent } from './components/restorepass/restorepass.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
-import { ManageRoomFormComponent } from './components/manage-room-form/manage-room-form.component';
+import { ManageRoomsFormComponent } from './components/manage-rooms-form/manage-rooms-form.component';
+import { ManageRoomsImagesComponent } from './components/manage-rooms-images/manage-rooms-images.component';
 
 export const routes: Routes = [
 
@@ -28,9 +28,6 @@ export const routes: Routes = [
   },
   {
     path: 'lostpass', component: LostpassComponent
-  },  
-  {
-    path: 'restorepass/:userID/:secret', component: RestorepassComponent
   },
   {
     path: 'rooms', component: RoomsComponent
@@ -57,17 +54,23 @@ export const routes: Routes = [
    * admin routes
    */
   {
-    path: 'admin', canActivate: [AdminAuthGuard],
+    path: 'admin',  canActivate: [AdminAuthGuard],
     children: [
       {
-        path: 'rooms', component: ManageRoomsComponent,
+        path: 'rooms',
         children: [
           {
-            path:'new', component:ManageRoomFormComponent
+            path: '', component: ManageRoomsComponent,
           },
           {
-            path:'edit/:id', component:ManageRoomFormComponent
-          }
+            path: 'new', component: ManageRoomsFormComponent,
+          },
+          {
+            path: 'edit/:id', component: ManageRoomsFormComponent,
+          },
+          {
+            path: 'images/:id', component: ManageRoomsImagesComponent,
+          },
         ]
       },
       {

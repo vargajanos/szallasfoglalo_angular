@@ -25,6 +25,7 @@ const port = process.env.PORT;
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // DATABASE CONNECTION
 var pool  = mysql.createPool({
@@ -45,6 +46,22 @@ const transporter = nodemailer.createTransport({
       pass: process.env.SMTP_PASS,
     },
 });
+
+// MULTER CONFIG
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        const timestamp = Date.now();
+        const originalname = file.originalname.replace(' ', '_');
+        const name = originalname.substring(0, originalname.lastIndexOf('.'));
+        const ext = originalname.substring(originalname.lastIndexOf('.'));
+        cb(null, name + '-' + timestamp + ext);
+    }
+  });
+  
+  const upload = multer({ storage: storage })
 
 // APP ROUTES
 
@@ -69,9 +86,10 @@ app.post('/send', (req, res)=>{
 
         try {
             result = await transporter.sendMail(mailOptions);
-            res.send(result.response);
+            res.send({ message: 'Az e-mail elküldve!' });
         } catch(error){
-            res.send({message: error});
+            res.send({ message: error });
+            
         }
     });
  
@@ -171,6 +189,7 @@ app.post('/reg/:table', (req, res)=>{
     });
 });
 
+//TODO: a user tábla public-ként használata biztonsági kockázat, valamit ki lehetne találni
 app.get('/public/:table', (req, res)=>{
     let table = req.params.table;
     
@@ -208,7 +227,7 @@ app.get('/public/:table/:field/:op/:value', (req, res)=>{
     });
 });
 
-
+//TODO: ezt valahogyan jobban megoldani, hogy biztonságos legyen a jelszó visszaállítás
 app.patch('/public/:table/:field/:op/:value', (req, res)=>{
     let table = req.params.table;
 
@@ -234,8 +253,7 @@ app.patch('/public/:table/:field/:op/:value', (req, res)=>{
     let str = updates.join(',');    
     pool.query(`UPDATE ${table} SET ${str} WHERE ${field}${op}'${value}'`, (err, results)=>{
         sendResults(res, err, results);
-    });;
-    
+    });
 });
 
 // send email with NODEMAILER 
@@ -243,7 +261,11 @@ app.post('/sendmail', tokencheck, (req, res)=>{
 });
 
 // upload file(s) with MULTER
-app.post('/upload', tokencheck, (req, res)=>{
+app.post('/upload', tokencheck, upload.single('file'), (req, res)=>{
+    if (!req.file){
+        return sendResults(res, '', {message: 'Hiba történt a feltöltéskor!'});
+    }
+    sendResults(res, '', {message: 'Sikeres képfeltöltés!', file: req.file });
 });
 
 // GET all records from :table

@@ -268,6 +268,27 @@ app.post('/upload', tokencheck, upload.single('file'), (req, res)=>{
     sendResults(res, '', {message: 'Sikeres képfeltöltés!', file: req.file });
 });
 
+//delete files from uploads folder
+app.delete('/delete/:filename', tokencheck, (req,res)=>{
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, 'uploads', filename);
+
+    if (!fs.existsSync(filePath)) {
+        return sendResults(res, '', {message: 'A fájl nem található'});
+    }
+
+    fs.unlink(filePath, (err)=>{
+        if (err) {
+            console.log(err);
+            return sendResults(res, '', {message:'Hiba történt a fájltörlésekor'})
+        }
+        return sendResults(res, '', {message:'Fájl sikeresen törölve'});
+    })
+})
+
+
+
+
 // GET all records from :table
 app.get('/:table', tokencheck, (req, res)=>{
     let table = req.params.table;

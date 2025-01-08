@@ -30,7 +30,7 @@
         </td>
         <td>{{ image.filename }}</td>
         <td>
-          <button class="btn btn-danger btn-sm">Töröl</button>
+          <button class="btn btn-danger btn-sm" (click)="delete(image.ID, image.filename)">Töröl</button>
         </td>
       </tr>
     </tbody>

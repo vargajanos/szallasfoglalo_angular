@@ -49,8 +49,9 @@ export class ManageRoomsImagesComponent implements OnInit {
             ID: uuid(),
             roomID: this.roomId ,
             filename: res.file.filename,
-            path: res.file.path
+            path: res.file.destination + res.file.filename
           }
+          console.log(data);
           this.api.insert('images', data).subscribe(res =>{
             this.message.showMessage('OK', 'Sikeres képfeltöltés!', 'success');
             this.getRommImages();
@@ -59,6 +60,20 @@ export class ManageRoomsImagesComponent implements OnInit {
       });
     }
    }
+
+   delete(id:string, filename:File){
+    this.api.deleteFile(filename).subscribe((res:any)=>{
+      if (res) {
+        this.api.delete('images', id).subscribe(res2=>{
+          if (res2) {
+            this.message.showMessage('Ok', res.message, 'success');  
+            this.getRommImages();  
+          }
+        })
+      }
+    })
+   }
+
 
    getRommImages(){
     this.api.select('images', 'roomID', 'eq', this.roomId).subscribe((res:any) => {

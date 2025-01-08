@@ -73,8 +73,12 @@ export class ApiService {
   }
 
   uploadFile(file:File){
-    const formdata = new FormData();
-    formdata.append('image', file, file.name);
-    return this.http.post(this.server + 'upload/', formdata, this.tokenHeader());
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(this.server + '/upload', formData, this.tokenHeader());
+  }
+
+  deleteFile(file:File){
+    return this.http.delete(this.server + '/delete'+file, this.tokenHeader());
   }
 }
